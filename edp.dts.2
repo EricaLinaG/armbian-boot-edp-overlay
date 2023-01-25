@@ -1,0 +1,34 @@
+/dts-v1/;
+/plugin/;
+
+/ {
+  compatible = "rockchip,rk3399";
+
+  fragment@0 {
+    target=<&backlight>;
+    __overlay__ {
+      status = "okay";
+    };
+  };
+
+  fragment@1 {
+    target=<&edp>;
+    __overlay__ {
+      status = "okay";
+    };
+  };
+
+  fragment@2 {
+    target=<&vopb>;
+    __overlay__ {
+      status = "okay";
+    };
+  };
+
+  fragment@3 {
+    target=<&vopb_mmu>;
+    __overlay__ {
+      status = "okay";
+    };
+  };
+};
