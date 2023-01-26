@@ -1,6 +1,6 @@
 verbosity=1
 bootlogo=true
 overlay_prefix=rockchip
-rootdev= UUID=fffffffffffffffffffffffffffffffff
+rootdev=UUID=fffffffffffffffffffffffffffffffff
 rootfstype=ext4
 usbstoragequirks=0x2537:0x1066:u,0x2537:0x1068:u
