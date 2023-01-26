@@ -28,13 +28,17 @@ Note:
  The first two dts files edp.dts1, and 2, work for an edp panel
  which matches this one, which is part of mainline. 
 
- _LG or lp079qx1-sp0v is a 7.9" display at 2048x1536 which is used 
+ __LG or lp079qx1-sp0v__ is a __7.9"__ display at __2048x1536__ which is used 
  in the ipad mini.
 
  This works for others but I do not have that panel.
 
 
 # The process 
+
+Basically, create __armbianEnv.txt__ and __boot.scr__ then put them and __boot.cmd__ 
+in _/boot/_.
+Move /boot/extlinux out of the way. Then apply a device tree overlay.
 
 ## Files
 
@@ -51,10 +55,10 @@ Note:
     - Make sure there are no spaces around '='.
   - Build _boot.scr_ from boot.cmd with __mkimage__
     - This is shadowed by extlinux which must be moved.
-  - Move __/boot/extlinux__ to __/boot/_extlinux__.
+  - Move __/boot/extlinux__ to **/boot/_extlinux**.
   - Copy all three files to _/boot/_.
   - Apply the _edp.dts_ overlay.
-    - Requires __armbianEnv.txt__ and __boot.cmd__ in _/boot/_.
+    - Requires that __armbianEnv.txt__ and __boot.cmd__ are in _/boot/_.
     - Modifies _/boot/armbianEnv.txt_, 
   - Reboot when ready.
 
