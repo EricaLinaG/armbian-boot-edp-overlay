@@ -3,8 +3,19 @@
  Turn an armbian media iso into a full uboot so that dts overlays work.
  Then apply an eDP overlay to get the eDP touchscreen working.
 
- Makefile and files for the process of fixing an Armbian media install so
- that it can use dts overlays.
+## A Makefile and some files.
+
+ This is really a __Makefile__ with a some rules and dependencies to 
+ document and automate the steps that I have done to my nanopc-t4.
+
+ You can read about it here, but the guts are in the __Makefile__.
+
+ If you dont want to read, and you know what you want you can
+ just pull the trigger and __make all__. If you like to go slow, 
+ read this, read the __Makefile__,
+ look at your _/boot/_.  Maybe do one __make__ rule at a time so
+ you can watch every step.
+ 
 
 Note: 
  This is still not quite working. The eDP panel I have is the K116E from 
@@ -27,7 +38,7 @@ Note:
 
 ## Files
 
-  - __boot.cmd__       - This is the boot script we turn into boot.scr
+  - __boot.cmd__       - This is the boot script we turn into boot.scr.
   - __armbianEnvOrig__ - This is a minimal version that we start with. 
   - __armbianEnv__     - This is the configuration data for boot.cmd.
   - __edp.dts1,2__     - These are the edp device tree overlays. Chronological.
@@ -40,9 +51,9 @@ Note:
     - Make sure there are no spaces around '='.
   - Build _boot.scr_ from boot.cmd with __mkimage__
     - This is shadowed by extlinux which must be moved.
-  - Move __/boot/extlinux__ to __/boot/_extlinux__
-  - Copy all three files to _/boot/_
-  - Apply the _edp.dts_ overlay
+  - Move __/boot/extlinux__ to __/boot/_extlinux__.
+  - Copy all three files to _/boot/_.
+  - Apply the _edp.dts_ overlay.
     - Requires __armbianEnv.txt__ and __boot.cmd__ in _/boot/_.
     - Modifies _/boot/armbianEnv.txt_, 
   - Reboot when ready.
@@ -57,39 +68,26 @@ Note:
 There are smaller make targets, but these should do it.
 
  - __make all__   -- does it all.
-    - install-boot
-    - edp-overlay
+    - __install__     :  Set up _/boot/_ for dts overlays.
+    - __edp-overlay__ :  Apply the overlay for subsequent boots.
 
- - __make install-boot__
-    - Make an _armbianEnv.txt_ with the root device uuid.
-    - Use mkimage to create boot.scr from boot.cmd
-    - Copy _armbianEnv.txt_, _boot.cmd_ and _boot.scr_ to _/boot/_
-    - Move _extlinux_ out of the way
+ - __make install__   -- Just the _/boot/_ setup.
+    - __show-uuid__:        Show the root device UUID as detected.
+    - __set-rootdev-uuid__: Make an _armbianEnv.txt_ with the root device uuid.
+    - __boot-scr__:         Use __mkimage__ to create _boot.scr_ from _boot.cmd_.
+    - __install-boot__:     Copy _armbianEnv.txt_, _boot.cmd_ and _boot.scr_ to _/boot/_.
+    - __extlinux-out__:     Move _extlinux_ out of the way.
 
  - __make edp-overlay__
     - Add the _edp.dts_ overlay to _/boot/_ with __armbian-add-overlay__.
    
-### these are more granular and the others make them for you.
-
- - __make set-rootdev-UUID__
-    - Create an _armbianEnv.txt_ with the root device UUID
-   
- - __make show-UUID__
-    - show the root device's UUID
-
- - __make boot-scr__
-    - Use mkimage to create _boot.scr_ from _boot.cmd_
-
-- __make extlinux-*<out/in>*__
-    - Move _/boot/extlinux_ out of the way, or back in place
-
  Read the Makefile for more.
 
 ## Conclusion
 
-This is fairly straightforward, but we have had some problems. And I am just 
-learning a lot of this and trying to follow the instructions I'm being given.
-For which I am very thankful.
+This is fairly straightforward, but we have had some problems, I think mostly
+my mistakes. And I am just learning a lot of this and trying to follow the 
+instructions I'm being given. For which I am very thankful.
 
 I've made a few mistakes along the way. This seems
 like a good way to document this and help it be repeatable.

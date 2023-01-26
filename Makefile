@@ -26,37 +26,48 @@
 # get the uuid for the root device mounted at /.
 uuid := $(shell grep UUID /etc/fstab | sed 's/\t/ /g' | grep ' / ' | cut -f 1 -d ' ')
 
-all: install-boot edp-overlay
+all: install edp-overlay
 
 # move extlinux out of the way, keep it just in case
 # if there are failures, boot from sdcard, move extlinux back, investigate.
+.PHONY: extlinux-out
 extlinux-out:
 	mv /boot/extlinux /boot/_extlinux
 
 # move it back.
+.PHONY: extlinux-in
 extlinux-in:
 	mv /boot/_extlinux /boot/extlinux
 
 # byte compile boot.cmd to boot.scr
+.PHONY: boot-scr
 boot-scr: boot.cmd extlinux-out
 	mkimage -A arm -T script -O linux -d boot.cmd boot.scr
 
+.PHONY: show-uuid
 show-uuid:
 	@echo 'root device:' $(uuid)
 
 # fixup armbianEnv.txt with the proper device uuid.
-set-rootdev-UUID: show-uuid
+.PHONY: set-rootdev-uuid
+set-rootdev-uuid: show-uuid
 	@sed 's/UUID=.*/$(uuid)/' armbianEnvOrig.txt > armbianEnv.txt
 	@echo 'armbianEnv:'
 	@echo '-------------------------'
 	@cat armbianEnv.txt
 
-# fix it, make it, and copy it all to boot.
-install-boot: set-rootdev-UUID boot-scr
+# copy them to /boot/
+.PHONY: install-boot
+install-boot:
 	cp armbianEnv.txt /boot/
 	cp boot.cmd /boot/
 	cp boot.scr /boot/
 
+# fix it, make it, and copy it all to boot.
+.PHONY: install
+install: set-rootdev-uuid boot-scr install-boot
+
 # apply an overlay such that will be applied on subsequent boots.
+.PHONY: edp-overlay
 edp-overlay:
 	armbian-add-overlay edp.dts
