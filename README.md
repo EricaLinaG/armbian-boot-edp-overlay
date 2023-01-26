@@ -2,6 +2,12 @@
 
  Turn an armbian media iso into a full uboot so that dts overlays work.
  Then apply an eDP overlay to get the eDP touchscreen working.
+ 
+ This is being tested and used on a Friendly Elec nanopc-t4 running
+ __Armbian Jammy__ which is a __-media__ distribution and does not support
+ dts overlays out of the box. The goal has been to get the Friendly Elec
+ K116e eDP display panel to work with mainline linux/Armbian.
+
 
 ## A Makefile and some files.
 
