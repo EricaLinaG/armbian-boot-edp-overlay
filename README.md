@@ -36,8 +36,7 @@ Note:
 
 # The process 
 
-Basically, create __armbianEnv.txt__ and __boot.scr__ then put them and __boot.cmd__ 
-in _/boot/_.
+Basically, create __armbianEnv.txt__ and __boot.scr__ then put them and __boot.cmd__ in _/boot/_.
 Move /boot/extlinux out of the way. Then apply a device tree overlay.
 
 ## Files
@@ -66,8 +65,10 @@ Move /boot/extlinux out of the way. Then apply a device tree overlay.
 
  The overlay is the last step as it will not work until there is
  _boot.cmd_ and _armbianEnv.txt_ in _/boot/_.
- The last step is applying an overlay to enable the edp on a rk3399, nanopc-t4
- _/boot/armbianEnv.txt_ will be modified by this step to add the overlay.
+
+ Applying an overlay with __armbian-add-overlay__ will modify
+ _/boot/armbianEnv.txt_. 
+ This step will not work at all if files are missing.
 
 There are smaller make targets, but these should do it.
 
